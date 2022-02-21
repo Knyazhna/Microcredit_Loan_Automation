@@ -169,14 +169,10 @@ loans = [
 inexpensive_loans = []
 
 # @TODO: Loop through all the loans and append any that cost $500 or less to the `inexpensive_loans` list
-loan_price = [d.get("loan_price") for d in loans]
 
-#Used this resource to find how to loop throught list of dictionaries using get method.
-# https://stackoverflow.com/questions/7271482/getting-a-list-of-values-from-a-list-of-dicts
-
-for key in loan_price:
-    if key < 500:
-        inexpensive_loans.append(key)
+for loan_price in loans:
+    if (loan_price["loan_price"]) <= 500:
+        inexpensive_loans.append(loan_price)
 
 # @TODO: Print the `inexpensive_loans` list
 print(inexpensive_loans)
@@ -202,6 +198,17 @@ header = ["loan_price", "remaining_months", "repayment_interval", "future_value"
 # Set the output file path
 output_path = Path("inexpensive_loans.csv")
 
+print("Writing the data to a CSV file...")
+
 # @TODO: Use the csv library and `csv.writer` to write the header row
 # and each row of `loan.values()` from the `inexpensive_loans` list.
-# YOUR CODE HERE!
+# Open the output CSV file path using `with open`
+with open(output_path, 'w', newline='') as csvfile:
+#Create a csvwriter
+    csvwriter = csv.writer(csvfile, delimiter=",")
+#Write the header to the CSV file
+    csvwriter.writerow(header)
+# Write the values of each dictionary inside of `inexpensive_loans`
+    # as a row in the CSV file.
+    for row in inexpensive_loans:
+      csvwriter.writerow(row.values())
